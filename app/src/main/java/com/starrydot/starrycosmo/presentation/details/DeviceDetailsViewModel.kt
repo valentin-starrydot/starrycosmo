@@ -20,7 +20,7 @@ sealed class State {
         val isLightAutoEnabled: Boolean,
         val lightMode: String,
         val lightPercentValue: Int,
-        val isBrakeLight: Boolean
+        val hasBrakeLight: Boolean
     ) : State()
 }
 

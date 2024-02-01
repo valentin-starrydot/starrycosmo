@@ -146,7 +146,7 @@ fun ContentView(state: State.Loaded) {
                 )
                 add(
                     InformationSection(
-                        title = "Brake Light : ${if (state.isBrakeLight) "On" else "Off"}",
+                        title = "Brake Light : ${if (state.hasBrakeLight) "On" else "Off"}",
                         iconResId = R.drawable.ic_brake
                     )
                 )
@@ -179,7 +179,7 @@ fun DeviceDetailsView_Loaded_Preview() {
             isLightAutoEnabled = false,
             lightMode = "OFF",
             lightPercentValue = 0,
-            isBrakeLight = false,
+            hasBrakeLight = false,
 
         )
     )
