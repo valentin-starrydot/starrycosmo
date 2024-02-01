@@ -110,7 +110,7 @@ fun ContentView(state: State.Loaded) {
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.Start),
-            text = "Device Details",
+            text = "Device details",
             color = ColorPalette.Tertiary,
             fontSize = 28.sp,
             fontFamily = FallingSky,
@@ -121,11 +121,11 @@ fun ContentView(state: State.Loaded) {
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            header = "${state.category} | ${state.model}",
+            header = "${state.category.toStringDescription()}${state.model?.let { model -> " | ${model.toStringDescription()}" } ?: ""}",
             sections = mutableListOf<InformationSection>().apply {
                 add(
                     InformationSection(
-                        title = "MAC : ${state.macAddress}",
+                        title = state.macAddress,
                         iconResId = R.drawable.ic_mac_address,
                     )
                 )

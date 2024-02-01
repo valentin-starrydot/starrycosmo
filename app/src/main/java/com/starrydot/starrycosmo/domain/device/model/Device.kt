@@ -5,7 +5,7 @@ data class Device(
     val model: DeviceModel?,
     val macAddress: String,
     val firmwareVersion: String,
-    val serial: String,
+    val serial: String?,
     val installationMode: DeviceInstallationMode?,
     val hasBrakeLight: Boolean,
     val lightMode: DeviceLightMode?,
