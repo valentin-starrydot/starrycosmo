@@ -3,7 +3,7 @@ package com.starrydot.starrycosmo.domain.device.model
 data class BluetoothDeviceDetails(
     val macAddress: String,
     val name: String?,
-    val isBonded: Boolean,
+    val isBound: Boolean,
     val services: List<BluetoothDeviceService>
 )
 

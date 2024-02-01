@@ -1,4 +1,4 @@
-package com.starrydot.starrycosmo.presentation.details
+package com.starrydot.starrycosmo.presentation.bluetooth.details
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,27 +31,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.starrydot.starrycosmo.R
-import com.starrydot.starrycosmo.domain.device.model.DeviceCategory
-import com.starrydot.starrycosmo.domain.device.model.DeviceInstallationMode
-import com.starrydot.starrycosmo.domain.device.model.DeviceLightMode
-import com.starrydot.starrycosmo.domain.device.model.DeviceModel
 import com.starrydot.starrycosmo.presentation.design.card.InformationCard
 import com.starrydot.starrycosmo.presentation.design.card.InformationSection
 import com.starrydot.starrycosmo.presentation.design.color.ColorPalette
-import com.starrydot.starrycosmo.presentation.description.toStringDescription
 import com.starrydot.starrycosmo.presentation.design.font.FallingSky
+import java.util.*
 
 @Composable
-fun DeviceDetailsView(
+fun BluetoothDeviceDetailsView(
     modifier: Modifier = Modifier,
     deviceMacAddress: String,
-    viewModel: DeviceDetailsViewModel = hiltViewModel(),
+    viewModel: BluetoothDeviceDetailsViewModel = hiltViewModel(),
     onNeedToGoBack: () -> Unit
 ) {
     val state = viewModel.observableState.collectAsState()
 
     //View
-    DeviceDetailsView(modifier = modifier, state = state.value)
+    BluetoothDeviceDetailsView(modifier = modifier, state = state.value)
 
     //Observe UIActions
     val context = LocalContext.current
@@ -72,12 +70,12 @@ fun DeviceDetailsView(
 
     //Get device details when View is launched
     LaunchedEffect(key1 = Unit, block = {
-        viewModel.getDeviceDetails(deviceMacAddress)
+        viewModel.getBluetoothDeviceDetails(deviceMacAddress)
     })
 }
 
 @Composable
-fun DeviceDetailsView(modifier: Modifier = Modifier, state: State) {
+fun BluetoothDeviceDetailsView(modifier: Modifier = Modifier, state: State) {
     Surface(modifier = modifier.background(color = Color.White)) {
         when (state) {
             is State.Loading -> {
@@ -106,7 +104,11 @@ fun LoadingView() {
 
 @Composable
 fun ContentView(state: State.Loaded) {
-    Column(modifier = Modifier.padding(20.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(20.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
         Text(
             modifier = Modifier
                 .wrapContentSize()
@@ -122,75 +124,58 @@ fun ContentView(state: State.Loaded) {
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            header = "${state.category.toStringDescription()}${state.model?.let { model -> " | ${model.toStringDescription()}" } ?: ""}",
+            header = "Details",
             sections = mutableListOf<InformationSection>().apply {
+                add(
+                    InformationSection(
+                        title = state.name ?: "Unknwon",
+                        iconResId = R.drawable.ic_product_identifier,
+                    )
+                )
                 add(
                     InformationSection(
                         title = state.macAddress,
                         iconResId = R.drawable.ic_mac_address,
                     )
                 )
-                state.serial?.let { serial ->
-                    add(
-                        InformationSection(
-                            title = serial,
-                            iconResId = R.drawable.ic_product_identifier
-                        )
-                    )
-                }
-                add(
-                    InformationSection(
-                        title = stringResource(
-                            id = R.string.device_details_firmware,
-                            state.firmwareVersion
-                        ),
-                        iconResId = R.drawable.ic_microchip
-                    )
-                )
-                add(
-                    InformationSection(
-                        title = (state.lightMode?.let { lightMode ->
-                            stringResource(
-                                id = R.string.device_details_light_mode,
-                                lightMode.toStringDescription()
-                            ) + " | "
-                        } ?: "") +
-                                "${state.lightPercentValue}% " +
-                                stringResource(id = R.string.device_details_light_mode_auto) +
-                                if (state.isLightAutoEnabled) stringResource(id = R.string.common_on) else stringResource(
-                                    id = R.string.common_off
-                                ),
-                        iconResId = R.drawable.ic_light
-                    )
-                )
-                add(
-                    InformationSection(
-                        title = stringResource(id = R.string.device_details_brake_light) + if (state.hasBrakeLight) stringResource(
-                            id = R.string.common_on
-                        ) else stringResource(id = R.string.common_off),
-                        iconResId = R.drawable.ic_brake
-                    )
-                )
-                state.installationMode?.let { installationMode ->
-                    add(
-                        InformationSection(
-                            title = stringResource(
-                                id = R.string.device_details_installation_mode,
-                                installationMode.toStringDescription()
-                            ),
-                            iconResId = R.drawable.ic_position
-                        )
-                    )
-                }
             }
         )
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.Start),
+            text = "Services",
+            color = ColorPalette.Tertiary,
+            fontSize = 18.sp,
+            fontFamily = FallingSky,
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        state.deviceServices.forEachIndexed { index, deviceService ->
+            if (index != 0) {
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+            InformationCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                header = deviceService.uuid,
+                sections = deviceService.characteristics.map { deviceCharacteristic ->
+                    InformationSection(
+                        title = deviceCharacteristic.uuid,
+                        iconResId = R.drawable.ic_feature
+                    )
+                }
+            )
+        }
     }
 }
 
 @Preview
 @Composable
-fun DeviceDetailsView_Loading_Preview() {
-    DeviceDetailsView(
+fun BluetoothDeviceDetailsView_Loading_Preview() {
+    BluetoothDeviceDetailsView(
         modifier = Modifier.fillMaxSize(),
         state = State.Loading
     )
@@ -198,20 +183,39 @@ fun DeviceDetailsView_Loading_Preview() {
 
 @Preview
 @Composable
-fun DeviceDetailsView_Loaded_Preview() {
-    DeviceDetailsView(
+fun BluetoothDeviceDetailsView_Loaded_Preview() {
+    BluetoothDeviceDetailsView(
         modifier = Modifier.fillMaxSize(),
         state = State.Loaded(
-            category = DeviceCategory.RIDE,
-            model = DeviceModel.RIDE_LITE,
+            name = "Pixel 6A",
             macAddress = "4921201e38d5",
-            serial = "BC892C9C-047D-8402-A9FD-7B2CC0048736",
-            firmwareVersion = "2.2.2",
-            installationMode = DeviceInstallationMode.HELMET,
-            isLightAutoEnabled = false,
-            lightMode = DeviceLightMode.OFF,
-            lightPercentValue = 0,
-            hasBrakeLight = false
+            isBound = false,
+            deviceServices = listOf(
+                DeviceService(
+                    uuid = UUID.randomUUID().toString(),
+                    characteristics = listOf(
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString())
+                    )
+                ),
+                DeviceService(
+                    uuid = UUID.randomUUID().toString(),
+                    characteristics = listOf(
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString())
+                    )
+                ),
+                DeviceService(
+                    uuid = UUID.randomUUID().toString(),
+                    characteristics = listOf(
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString())
+                    )
+                )
+            )
         )
     )
 }

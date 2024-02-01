@@ -77,7 +77,7 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
                     val bluetoothDeviceDetails = BluetoothDeviceDetails(
                         macAddress = scannedDevice.address,
                         name = scannedDevice.name,
-                        isBonded = scannedDevice.isBonded,
+                        isBound = scannedDevice.isBonded,
                         services = discoveredServices.map { service ->
                             BluetoothDeviceService(
                                 uuid = service.uuid.toString(),

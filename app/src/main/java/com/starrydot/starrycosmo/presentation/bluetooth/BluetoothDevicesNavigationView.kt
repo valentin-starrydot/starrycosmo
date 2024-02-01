@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.starrydot.starrycosmo.presentation.bluetooth.details.BluetoothDeviceDetailsView
 import com.starrydot.starrycosmo.presentation.bluetooth.list.BluetoothDevicesListView
 
 enum class Screens(val path: String) {
@@ -36,7 +37,13 @@ fun BluetoothDevicesNavigationView(
 
         composable("${Screens.DEVICE_DETAILS.path}/{macAddress}") { backStackEntry ->
             backStackEntry.arguments?.getString("macAddress")?.let { macAddress ->
-                //TODO -> Implement screen
+                BluetoothDeviceDetailsView(
+                    modifier = Modifier.fillMaxSize(),
+                    deviceMacAddress = macAddress,
+                    onNeedToGoBack = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
 
