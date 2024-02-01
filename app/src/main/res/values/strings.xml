@@ -1,3 +1,53 @@
 <resources>
-    <string name="app_name">StarryCosmo</string>
+    <string name="app_name">Starry Cosmo</string>
+
+    <!-- Common -->
+    <string name="common_on">On</string>
+    <string name="common_off">Off</string>
+
+    <!-- Bluetooth Devices List -->
+    <string name="bluetooth_devices_list_need_permissions">We need bluetooth &amp; location permissions to be able to search for nearby Bluetooth LE devices…\n\nPlease give these permissions on Settings by clicking on the button below</string>
+    <string name="bluetooth_devices_list_grant_permissions">Grant permissions</string>
+    <string name="bluetooth_devices_list_title">Searching…</string>
+    <string name="bluetooth_devices_list_unknown">Unknown</string>
+    <string name="bluetooth_devices_list_bound">Bound</string>
+    <string name="bluetooth_devices_list_yes">Yes</string>
+    <string name="bluetooth_devices_list_no">No</string>
+
+    <!-- Device Category description -->
+    <string name="device_category_ride">Ride</string>
+    <string name="device_category_vision">Vision</string>
+    <string name="device_category_remote">Remote</string>
+
+    <!--Device Installation Mode -->
+    <string name="device_installation_mode_seat">Seat</string>
+    <string name="device_installation_mode_helmet">Helmet</string>
+
+    <!-- Device Light Mode description -->
+    <string name="device_light_mode_warning">Warning</string>
+    <string name="device_light_mode_position">Position</string>
+    <string name="device_light_mode_both">Both</string>
+    <string name="device_light_mode_off">Off</string>
+
+    <!-- Device Model description -->
+    <string name="device_model_ride">Ride</string>
+    <string name="device_model_ride_lite">Ride Lite</string>
+    <string name="device_model_remote_v1">Remote v1</string>
+
+    <!-- Information Card -->
+    <string name="information_card_icon_content_description">Information Card Icon</string>
+
+    <!-- Device Details -->
+    <string name="device_details_error_while_loading_details">Error while loading device details\nGoing back to list…</string>
+    <string name="device_details_title">Device details</string>
+    <string name="device_details_firmware">Firmware : %s</string>
+    <string name="device_details_light_mode">Mode : %s</string>
+    <string name="device_details_light_mode_auto"> | Auto : </string>
+    <string name="device_details_brake_light">Brake Light : </string>
+    <string name="device_details_installation_mode">Installation mode : %s</string>
+
+    <!-- Devices List -->
+    <string name="devices_list_cant_load_while_offline">"Can\'t load items while offline\n\nRetrying in 5 seconds…"</string>
+    <string name="devices_list_title">Devices</string>
+    <string name="devices_list_bluetooth_search_icon_description">Bluetooth Search Icon</string>
 </resources>

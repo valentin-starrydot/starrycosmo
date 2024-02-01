@@ -9,5 +9,5 @@ interface DeviceRepository {
     suspend fun getDevices(): List<Device>
     suspend fun getDeviceDetails(deviceMacAddress: String): Device?
     suspend fun searchForBluetoothDevices(): Flow<List<BluetoothDevice>>
-    suspend fun getBluetoothDeviceDetails(deviceAddress: String): BluetoothDeviceDetails?
+    suspend fun getBluetoothDeviceDetails(deviceMacAddress: String): BluetoothDeviceDetails?
 }

@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,7 +72,7 @@ fun DevicesListView(
                 is UIAction.ShowNoConnectionError -> {
                     Toast.makeText(
                         context,
-                        "Can't load items while offline\n\nRetrying in 5 seconds...",
+                        context.getString(R.string.devices_list_cant_load_while_offline),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -85,6 +86,7 @@ fun DevicesListView(
     })
 }
 
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun DevicesListView(
     modifier: Modifier = Modifier,
@@ -103,7 +105,7 @@ fun DevicesListView(
                     modifier = Modifier
                         .wrapContentSize()
                         .align(Alignment.CenterVertically),
-                    text = "Devices",
+                    text = stringResource(id = R.string.devices_list_title),
                     color = ColorPalette.Tertiary,
                     fontSize = 36.sp,
                     fontFamily = FallingSky,
@@ -118,13 +120,13 @@ fun DevicesListView(
                             interactionSource = MutableInteractionSource(),
                             indication = rememberRipple()
                         ) {
-                          onBluetoothModeClick.invoke()
+                            onBluetoothModeClick.invoke()
                         },
                     painter = painterResource(id = R.drawable.ic_bluetooth_search),
-                    contentDescription = "Bluetooth Search Icon"
+                    contentDescription = stringResource(id = R.string.devices_list_bluetooth_search_icon_description)
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             when (state) {
                 is State.Loading -> {
                     LoadingView(

@@ -32,7 +32,7 @@ sealed class State {
 }
 
 sealed class UIAction {
-    object ErrorWhileLoading: UIAction()
+    object NotifyErrorWhileRetrievingDevice: UIAction()
 }
 
 @HiltViewModel
@@ -45,6 +45,7 @@ class DeviceDetailsViewModel @Inject constructor(private val deviceRepository: D
 
     fun getDeviceDetails(deviceMacAddress: String) {
         viewModelScope.launch {
+            //Get device details or display an error if no devices could be found
             deviceRepository.getDeviceDetails(deviceMacAddress)?.let { device ->
                 state.value = State.Loaded(
                     category = device.category,
@@ -59,7 +60,7 @@ class DeviceDetailsViewModel @Inject constructor(private val deviceRepository: D
                     hasBrakeLight = device.hasBrakeLight
                 )
             } ?: run {
-                uiAction.emit(UIAction.ErrorWhileLoading)
+                uiAction.emit(UIAction.NotifyErrorWhileRetrievingDevice)
             }
         }
     }

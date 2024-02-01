@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.starrydot.starrycosmo"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -92,8 +92,6 @@ dependencies {
     //BLE Nordic Libraries
     implementation("no.nordicsemi.android.kotlin.ble:scanner:1.0.14")
     implementation("no.nordicsemi.android.kotlin.ble:client:1.0.14")
-    implementation("com.github.jeziellago:compose-markdown:0.4.1")
-    implementation("no.nordicsemi.android.common:permission:1.6.4")
 
     //Test Libraries
     testImplementation("junit:junit:4.13.2")

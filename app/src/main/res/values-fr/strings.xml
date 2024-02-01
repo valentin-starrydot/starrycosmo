@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Starry Cosmo</string>
+
+    <!-- Common -->
+    <string name="common_on">Activé</string>
+    <string name="common_off">Désactivé</string>
+
+    <!-- Bluetooth Devices List -->
+    <string name="bluetooth_devices_list_need_permissions">Nous avons besoin des autorisations Bluetooth &amp; localisations pour scanner les appareils Bluetooth LE à proximité…\n\nMerci de nous donner ces autorisations dans les paramètres en cliquant sur le bouton ci-dessous</string>
+    <string name="bluetooth_devices_list_grant_permissions">Donner l\'accès</string>
+    <string name="bluetooth_devices_list_title">Recherche…</string>
+    <string name="bluetooth_devices_list_unknown">Inconnu</string>
+    <string name="bluetooth_devices_list_bound">Lié</string>
+    <string name="bluetooth_devices_list_yes">Oui</string>
+    <string name="bluetooth_devices_list_no">Non</string>
+
+    <!-- Device Category description -->
+    <string name="device_category_ride">Ride</string>
+    <string name="device_category_vision">Vision</string>
+    <string name="device_category_remote">Remote</string>
+
+    <!--Device Installation Mode -->
+    <string name="device_installation_mode_seat">Selle</string>
+    <string name="device_installation_mode_helmet">Casque</string>
+
+    <!-- Device Light Mode description -->
+    <string name="device_light_mode_warning">Avertissement</string>
+    <string name="device_light_mode_position">Position</string>
+    <string name="device_light_mode_both">Les deux</string>
+    <string name="device_light_mode_off">Désactivé</string>
+
+    <!-- Device Model description -->
+    <string name="device_model_ride">Ride</string>
+    <string name="device_model_ride_lite">Ride Lite</string>
+    <string name="device_model_remote_v1">Remote v1</string>
+
+    <!-- Information Card -->
+    <string name="information_card_icon_content_description">Icône de la carte d\'information</string>
+
+    <!-- Device Details -->
+    <string name="device_details_error_while_loading_details">Erreur lors du chargement des informations de l\'appareil\nRetour vers la liste…</string>
+    <string name="device_details_title">Détails de l\'appareil</string>
+    <string name="device_details_firmware">Micrologiciel : %s</string>
+    <string name="device_details_light_mode">Mode : %s</string>
+    <string name="device_details_light_mode_auto"> | Auto : </string>
+    <string name="device_details_brake_light">Éclairage de freinage : </string>
+    <string name="device_details_installation_mode">Mode d\'installation : %s</string>
+
+    <!-- Devices List -->
+    <string name="devices_list_cant_load_while_offline">"Impossible de charger les données en mode hors-ligne\n\nNouvelle tentative dans 5 secondes…"</string>
+    <string name="devices_list_title">Appareils</string>
+    <string name="devices_list_bluetooth_search_icon_description">Icône de recherche Bluetooth</string>
+</resources>

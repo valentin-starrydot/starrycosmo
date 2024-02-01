@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,7 +85,7 @@ fun InformationCardSectionView(modifier: Modifier, informationSection: Informati
                     .size(25.dp)
                     .align(Alignment.CenterVertically),
                 painter = painterResource(id = informationSection.iconResId),
-                contentDescription = "Information Card Icon"
+                contentDescription = stringResource(id = R.string.information_card_icon_content_description)
             )
             Spacer(modifier = Modifier.width(10.dp))
         }

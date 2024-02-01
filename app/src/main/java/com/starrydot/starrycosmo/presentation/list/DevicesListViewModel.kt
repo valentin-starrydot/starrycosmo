@@ -51,7 +51,7 @@ class DevicesListViewModel @Inject constructor(private val deviceRepository: Dev
                 )
             } catch (exception: Exception) {
                 uiAction.emit(UIAction.ShowNoConnectionError)
-                //If we have an Internet error on first load, retry until it succeed
+                //If we have an Internet error, retry until it succeed
                 if (state.value == State.Loading) {
                     delay(5000)
                     getData()

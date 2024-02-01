@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,11 +56,11 @@ fun DeviceDetailsView(
     LaunchedEffect(key1 = Unit, block = {
         viewModel.observableUIAction.collect { uiAction ->
             when (uiAction) {
-                is UIAction.ErrorWhileLoading -> {
+                is UIAction.NotifyErrorWhileRetrievingDevice -> {
                     //Notify through a Toast
                     Toast.makeText(
                         context,
-                        "Error while loading device details\nGoing back to list...",
+                        context.getString(R.string.device_details_error_while_loading_details),
                         Toast.LENGTH_LONG
                     ).show()
                     //Since contact don't exist, switch back to previous screen
@@ -110,7 +111,7 @@ fun ContentView(state: State.Loaded) {
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.Start),
-            text = "Device details",
+            text = stringResource(id = R.string.device_details_title),
             color = ColorPalette.Tertiary,
             fontSize = 28.sp,
             fontFamily = FallingSky,
@@ -139,26 +140,44 @@ fun ContentView(state: State.Loaded) {
                 }
                 add(
                     InformationSection(
-                        title = "Firmware : ${state.firmwareVersion}",
+                        title = stringResource(
+                            id = R.string.device_details_firmware,
+                            state.firmwareVersion
+                        ),
                         iconResId = R.drawable.ic_microchip
                     )
                 )
                 add(
                     InformationSection(
-                        title = "${state.lightMode?.let { lightMode -> "Mode ${lightMode.toStringDescription()} | " } ?: ""} ${state.lightPercentValue}% | Auto ${if (state.isLightAutoEnabled) "On" else "Off"}",
+                        title = (state.lightMode?.let { lightMode ->
+                            stringResource(
+                                id = R.string.device_details_light_mode,
+                                lightMode.toStringDescription()
+                            ) + " | "
+                        } ?: "") +
+                                "${state.lightPercentValue}% " +
+                                stringResource(id = R.string.device_details_light_mode_auto) +
+                                if (state.isLightAutoEnabled) stringResource(id = R.string.common_on) else stringResource(
+                                    id = R.string.common_off
+                                ),
                         iconResId = R.drawable.ic_light
                     )
                 )
                 add(
                     InformationSection(
-                        title = "Brake Light : ${if (state.hasBrakeLight) "On" else "Off"}",
+                        title = stringResource(id = R.string.device_details_brake_light) + if (state.hasBrakeLight) stringResource(
+                            id = R.string.common_on
+                        ) else stringResource(id = R.string.common_off),
                         iconResId = R.drawable.ic_brake
                     )
                 )
                 state.installationMode?.let { installationMode ->
                     add(
                         InformationSection(
-                            title = "Installation mode : ${installationMode.toStringDescription()}",
+                            title = stringResource(
+                                id = R.string.device_details_installation_mode,
+                                installationMode.toStringDescription()
+                            ),
                             iconResId = R.drawable.ic_position
                         )
                     )

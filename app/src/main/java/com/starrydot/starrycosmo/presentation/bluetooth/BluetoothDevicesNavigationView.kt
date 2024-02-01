@@ -1,11 +1,13 @@
 package com.starrydot.starrycosmo.presentation.bluetooth
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.starrydot.starrycosmo.presentation.bluetooth.list.BluetoothDevicesListView
 
 enum class Screens(val path: String) {
     SEARCH(path = "search"),
@@ -24,12 +26,17 @@ fun BluetoothDevicesNavigationView(
         startDestination = startDestination
     ) {
         composable(Screens.SEARCH.path) {
-            //TODO -> Add screen
+            BluetoothDevicesListView(
+                modifier = Modifier.fillMaxSize(),
+                onDeviceClick = { deviceMacAddress ->
+                    navController.navigate("${Screens.DEVICE_DETAILS}/$deviceMacAddress")
+                }
+            )
         }
 
-        composable("${Screens.DEVICE_DETAILS.path}/{address}") { backStackEntry ->
-            backStackEntry.arguments?.getString("address")?.let { address ->
-                //TODO -> Connect to device according to its address and search for services & characteristics
+        composable("${Screens.DEVICE_DETAILS.path}/{macAddress}") { backStackEntry ->
+            backStackEntry.arguments?.getString("macAddress")?.let { macAddress ->
+                //TODO -> Implement screen
             }
         }
 
