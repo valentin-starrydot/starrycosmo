@@ -34,9 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.starrydot.starrycosmo.R
+import com.starrydot.starrycosmo.domain.device.model.DeviceCategory
+import com.starrydot.starrycosmo.domain.device.model.DeviceModel
 import com.starrydot.starrycosmo.presentation.design.card.InformationCard
 import com.starrydot.starrycosmo.presentation.design.card.InformationSection
 import com.starrydot.starrycosmo.presentation.design.color.ColorPalette
+import com.starrydot.starrycosmo.presentation.design.description.toStringDescription
 import com.starrydot.starrycosmo.presentation.design.font.FallingSky
 
 @Composable
@@ -149,17 +152,23 @@ fun DevicesView(
                     ) {
                         onDeviceClick.invoke(listDevice.macAddress)
                     },
-                header = listDevice.category,
-                sections = listOf(
-                    InformationSection(
-                        title = listDevice.model,
-                        iconResId = R.drawable.ic_product_identifier
-                    ),
-                    InformationSection(
-                        title = listDevice.macAddress,
-                        iconResId = R.drawable.ic_mac_address
+                header = listDevice.category.toStringDescription(),
+                sections = mutableListOf<InformationSection>().apply {
+                    listDevice.model?.let { model ->
+                        add(
+                            InformationSection(
+                                title = model.toStringDescription(),
+                                iconResId = R.drawable.ic_product_identifier
+                            )
+                        )
+                    }
+                    add(
+                        InformationSection(
+                            title = listDevice.macAddress,
+                            iconResId = R.drawable.ic_mac_address
+                        )
                     )
-                )
+                }
             )
         }
     }
@@ -185,18 +194,18 @@ fun DevicesListView_Preview() {
         state = State.Loaded(
             listDevices = listOf(
                 ListDevice(
-                    category = "Ride",
-                    model = "Ride Lite",
+                    category = DeviceCategory.RIDE,
+                    model = DeviceModel.RIDE_LITE,
                     macAddress = "4921201e38d5"
                 ),
                 ListDevice(
-                    category = "Ride",
-                    model = "Ride Lite",
+                    category = DeviceCategory.RIDE,
+                    model = null,
                     macAddress = "4921201e38d5"
                 ),
                 ListDevice(
-                    category = "Ride",
-                    model = "Ride Lite",
+                    category = DeviceCategory.RIDE,
+                    model = DeviceModel.RIDE_LITE,
                     macAddress = "4921201e38d5"
                 )
             )

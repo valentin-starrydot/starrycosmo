@@ -26,8 +26,8 @@ enum class DeviceModel {
 }
 
 enum class DeviceInstallationMode {
-    seat,
-    helmet
+    SEAT,
+    HELMET
 }
 
 enum class DeviceLightMode {
