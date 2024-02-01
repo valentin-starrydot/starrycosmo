@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,8 +59,8 @@ fun InformationCard(
             fontWeight = FontWeight.Black
         )
         Spacer(modifier = Modifier.height(10.dp))
-        LazyColumn(modifier = Modifier.wrapContentSize()) {
-            itemsIndexed(sections) { index, section ->
+        Column(modifier = Modifier.wrapContentSize()) {
+            sections.forEachIndexed { index, section ->
                 //Add separator if not first item
                 if (index != 0) {
                     Spacer(modifier = Modifier.height(10.dp))
