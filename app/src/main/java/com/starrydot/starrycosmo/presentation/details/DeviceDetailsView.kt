@@ -35,7 +35,7 @@ import com.starrydot.starrycosmo.domain.device.model.DeviceModel
 import com.starrydot.starrycosmo.presentation.design.card.InformationCard
 import com.starrydot.starrycosmo.presentation.design.card.InformationSection
 import com.starrydot.starrycosmo.presentation.design.color.ColorPalette
-import com.starrydot.starrycosmo.presentation.design.description.toStringDescription
+import com.starrydot.starrycosmo.presentation.description.toStringDescription
 import com.starrydot.starrycosmo.presentation.design.font.FallingSky
 
 @Composable
@@ -59,7 +59,7 @@ fun DeviceDetailsView(
                     //Notify through a Toast
                     Toast.makeText(
                         context,
-                        "Error while loading device details",
+                        "Error while loading device details\nGoing back to list...",
                         Toast.LENGTH_LONG
                     ).show()
                     //Since contact don't exist, switch back to previous screen

@@ -2,16 +2,19 @@ package com.starrydot.starrycosmo.presentation.list
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
@@ -28,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,14 +43,15 @@ import com.starrydot.starrycosmo.domain.device.model.DeviceModel
 import com.starrydot.starrycosmo.presentation.design.card.InformationCard
 import com.starrydot.starrycosmo.presentation.design.card.InformationSection
 import com.starrydot.starrycosmo.presentation.design.color.ColorPalette
-import com.starrydot.starrycosmo.presentation.design.description.toStringDescription
+import com.starrydot.starrycosmo.presentation.description.toStringDescription
 import com.starrydot.starrycosmo.presentation.design.font.FallingSky
 
 @Composable
 fun DevicesListView(
     modifier: Modifier = Modifier,
     viewModel: DevicesListViewModel = hiltViewModel(),
-    onDeviceClick: (deviceMacAddress: String) -> Unit
+    onDeviceClick: (deviceMacAddress: String) -> Unit,
+    onBluetoothModeClick: () -> Unit
 ) {
     val state = viewModel.observableState.collectAsState()
 
@@ -54,7 +59,8 @@ fun DevicesListView(
     DevicesListView(
         modifier = modifier,
         state = state.value,
-        onDeviceClick = onDeviceClick
+        onDeviceClick = onDeviceClick,
+        onBluetoothModeClick = onBluetoothModeClick
     )
 
     //Observe UIActions
@@ -65,7 +71,7 @@ fun DevicesListView(
                 is UIAction.ShowNoConnectionError -> {
                     Toast.makeText(
                         context,
-                        "Can't load more items while offline",
+                        "Can't load items while offline\n\nRetrying in 5 seconds...",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -83,20 +89,41 @@ fun DevicesListView(
 fun DevicesListView(
     modifier: Modifier = Modifier,
     state: State,
-    onDeviceClick: (deviceMacAddress: String) -> Unit
+    onDeviceClick: (deviceMacAddress: String) -> Unit,
+    onBluetoothModeClick: () -> Unit
 ) {
     Surface(modifier = modifier.background(color = Color.White)) {
         Column(modifier = Modifier.padding(20.dp)) {
-            Text(
+            Row(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.Start),
-                text = "Devices",
-                color = ColorPalette.Tertiary,
-                fontSize = 36.sp,
-                fontFamily = FallingSky,
-                fontWeight = FontWeight.Black
-            )
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            ) {
+                Text(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.CenterVertically),
+                    text = "Devices",
+                    color = ColorPalette.Tertiary,
+                    fontSize = 36.sp,
+                    fontFamily = FallingSky,
+                    fontWeight = FontWeight.Black
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Image(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .align(Alignment.CenterVertically)
+                        .clickable(
+                            interactionSource = MutableInteractionSource(),
+                            indication = rememberRipple()
+                        ) {
+                          onBluetoothModeClick.invoke()
+                        },
+                    painter = painterResource(id = R.drawable.ic_bluetooth_search),
+                    contentDescription = "Bluetooth Search Icon"
+                )
+            }
             Spacer(modifier = Modifier.height(20.dp))
             when (state) {
                 is State.Loading -> {
@@ -182,6 +209,9 @@ fun DevicesListView_Loading_Preview() {
         state = State.Loading,
         onDeviceClick = {
             //Do nothing
+        },
+        onBluetoothModeClick = {
+            //Do nothing
         }
     )
 }
@@ -211,6 +241,9 @@ fun DevicesListView_Preview() {
             )
         ),
         onDeviceClick = {
+            //Do nothing
+        },
+        onBluetoothModeClick = {
             //Do nothing
         }
     )

@@ -1,4 +1,4 @@
-package com.starrydot.starrycosmo.presentation.design.description
+package com.starrydot.starrycosmo.presentation.description
 
 import androidx.compose.runtime.Composable
 import com.starrydot.starrycosmo.domain.device.model.DeviceLightMode

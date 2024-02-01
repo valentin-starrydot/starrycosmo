@@ -31,6 +31,9 @@ fun MainNavigationView(
                 modifier = Modifier.fillMaxSize(),
                 onDeviceClick = { deviceMacAddress ->
                     navController.navigate("${Screens.DEVICE_DETAILS.path}/$deviceMacAddress")
+                },
+                onBluetoothModeClick = {
+                    //TODO -> Navigate to Bluetooth screens
                 }
             )
         }
