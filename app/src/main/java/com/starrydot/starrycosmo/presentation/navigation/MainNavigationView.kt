@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.starrydot.starrycosmo.presentation.details.DeviceDetailsView
 import com.starrydot.starrycosmo.presentation.list.DevicesListView
 
 enum class Screens(val path: String) {
@@ -36,7 +37,12 @@ fun MainNavigationView(
 
         composable("${Screens.DEVICE_DETAILS.path}/{macAddress}") { backStackEntry ->
             backStackEntry.arguments?.getString("macAddress")?.let { macAddress ->
-                //TODO -> Implement Compose View here by passing macAddress
+                DeviceDetailsView(
+                    modifier = Modifier.fillMaxSize(),
+                    deviceMacAddress = macAddress,
+                    onNeedToGoBack = {
+                        navController.popBackStack()
+                    })
             }
         }
 
