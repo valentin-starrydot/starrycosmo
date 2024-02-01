@@ -7,12 +7,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.starrydot.starrycosmo.presentation.bluetooth.BluetoothDevicesNavigationView
 import com.starrydot.starrycosmo.presentation.details.DeviceDetailsView
 import com.starrydot.starrycosmo.presentation.list.DevicesListView
 
 enum class Screens(val path: String) {
     DEVICES_LIST(path = "devices_list"),
-    DEVICE_DETAILS(path = "device_details")
+    DEVICE_DETAILS(path = "device_details"),
+    BLUETOOTH_DEVICES(path = "bluetooth_devices")
 }
 
 @Composable
@@ -33,7 +35,7 @@ fun MainNavigationView(
                     navController.navigate("${Screens.DEVICE_DETAILS.path}/$deviceMacAddress")
                 },
                 onBluetoothModeClick = {
-                    //TODO -> Navigate to Bluetooth screens
+                    navController.navigate(Screens.BLUETOOTH_DEVICES.path)
                 }
             )
         }
@@ -47,6 +49,12 @@ fun MainNavigationView(
                         navController.popBackStack()
                     })
             }
+        }
+
+        composable(Screens.BLUETOOTH_DEVICES.path) {
+            BluetoothDevicesNavigationView(
+                modifier = Modifier.fillMaxSize()
+            )
         }
 
     }
