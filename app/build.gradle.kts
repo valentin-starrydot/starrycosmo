@@ -62,12 +62,12 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.5.0")
 
     //Compose dependencies
-    implementation("androidx.compose.foundation:foundation:1.5.4")
-    implementation("androidx.compose.ui:ui:1.5.4")
+    implementation("androidx.compose.foundation:foundation:1.6.0")
+    implementation("androidx.compose.ui:ui:1.6.0")
 
     //Compose Preview
-    implementation("androidx.compose.ui:ui-tooling-preview:1.5.4")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.5.4")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.0")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.6.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     //Compose integration with Activities/VM
@@ -78,7 +78,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.2")
 
     //Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.48")
+    implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     //Navigation Compose
@@ -88,6 +88,12 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
+
+    //BLE Nordic Libraries
+    implementation("no.nordicsemi.android.kotlin.ble:scanner:1.0.14")
+    implementation("no.nordicsemi.android.kotlin.ble:client:1.0.14")
+    implementation("com.github.jeziellago:compose-markdown:0.4.1")
+    implementation("no.nordicsemi.android.common:permission:1.6.4")
 
     //Test Libraries
     testImplementation("junit:junit:4.13.2")
