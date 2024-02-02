@@ -28,7 +28,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import com.starrydot.starrycosmo.R
 import com.starrydot.starrycosmo.design.button.SecondaryButton
 import com.starrydot.starrycosmo.design.card.InformationCard
@@ -71,7 +72,7 @@ fun BluetoothDevicesListView(
 
     //Handle search View display
     var canDisplaySearchView by remember {
-        mutableStateOf(false)
+        mutableStateOf<Boolean?>(null)
     }
 
     val launcher = rememberLauncherForActivityResult(
@@ -82,7 +83,7 @@ fun BluetoothDevicesListView(
     }
 
     //Display View only if all permissions have been granted (location & Bluetooth)
-    if (canDisplaySearchView) {
+    if (canDisplaySearchView == true) {
         BluetoothDevicesListView(
             modifier = modifier,
             state = state.value,
@@ -93,16 +94,39 @@ fun BluetoothDevicesListView(
         LaunchedEffect(key1 = Unit, block = {
             viewModel.searchForDevices()
         })
-    } else {
+    } else if (canDisplaySearchView == false) {
         PermissionsView(
             modifier = modifier
         )
-        //Launch permission request at the end of composition
-        SideEffect {
-            launcher.launch(PERMISSIONS)
-        }
+    } else {
+        LoadingView()
     }
 
+    //Check for permissions when going back in case the user gave authorizations from settings
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
+
+    LaunchedEffect(lifecycleState) {
+        when (lifecycleState) {
+            Lifecycle.State.RESUMED -> {
+                launcher.launch(PERMISSIONS)
+            }
+            else -> {}
+        }
+    }
+}
+
+@Composable
+fun LoadingView() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .width(100.dp)
+                .align(Alignment.Center),
+            color = ColorPalette.Secondary,
+            trackColor = ColorPalette.Tertiary
+        )
+    }
 }
 
 @Composable
