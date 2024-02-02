@@ -41,11 +41,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.starrydot.starrycosmo.R
 import com.starrydot.starrycosmo.domain.device.model.DeviceCategory
 import com.starrydot.starrycosmo.domain.device.model.DeviceModel
-import com.starrydot.starrycosmo.presentation.design.card.InformationCard
-import com.starrydot.starrycosmo.presentation.design.card.InformationSection
-import com.starrydot.starrycosmo.presentation.design.color.ColorPalette
+import com.starrydot.starrycosmo.design.card.InformationCard
+import com.starrydot.starrycosmo.design.card.InformationSection
+import com.starrydot.starrycosmo.design.color.ColorPalette
 import com.starrydot.starrycosmo.presentation.description.toStringDescription
-import com.starrydot.starrycosmo.presentation.design.font.FallingSky
+import com.starrydot.starrycosmo.design.font.FallingSky
 
 @Composable
 fun DevicesListView(

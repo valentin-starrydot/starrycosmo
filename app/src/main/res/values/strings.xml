@@ -5,6 +5,14 @@
     <string name="common_on">On</string>
     <string name="common_off">Off</string>
 
+    <!-- Bluetooth Device Details -->
+    <string name="bluetooth_device_details_error_while_loading_details">Error while loading device details\nGoing back to list…</string>
+    <string name="bluetooth_device_details_title">Bluetooth device</string>
+    <string name="bluetooth_device_details_header">Details</string>
+    <string name="bluetooth_device_details_unknown">Unknown</string>
+    <string name="bluetooth_device_details_services">Services</string>
+
+
     <!-- Bluetooth Devices List -->
     <string name="bluetooth_devices_list_need_permissions">We need bluetooth &amp; location permissions to be able to search for nearby Bluetooth LE devices…\n\nPlease give these permissions on Settings by clicking on the button below</string>
     <string name="bluetooth_devices_list_grant_permissions">Grant permissions</string>

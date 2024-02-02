@@ -46,12 +46,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.starrydot.starrycosmo.R
-import com.starrydot.starrycosmo.presentation.design.button.SecondaryButton
-import com.starrydot.starrycosmo.presentation.design.card.InformationCard
-import com.starrydot.starrycosmo.presentation.design.card.InformationSection
-import com.starrydot.starrycosmo.presentation.design.color.ColorPalette
-import com.starrydot.starrycosmo.presentation.design.font.FallingSky
-
+import com.starrydot.starrycosmo.design.button.SecondaryButton
+import com.starrydot.starrycosmo.design.card.InformationCard
+import com.starrydot.starrycosmo.design.card.InformationSection
+import com.starrydot.starrycosmo.design.color.ColorPalette
+import com.starrydot.starrycosmo.design.font.FallingSky
 
 val PERMISSIONS = arrayOf(
     android.Manifest.permission.BLUETOOTH,
@@ -247,7 +246,7 @@ fun BluetoothDevicesListView_Preview() {
                 ListBluetoothDevice(
                     name = "iPhone 15 Pro Max",
                     macAddress = "677aa677",
-                    false
+                    isBound = false
                 ),
             )
         ),

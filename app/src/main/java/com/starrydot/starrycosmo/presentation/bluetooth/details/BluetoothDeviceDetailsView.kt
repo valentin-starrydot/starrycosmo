@@ -31,10 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.starrydot.starrycosmo.R
-import com.starrydot.starrycosmo.presentation.design.card.InformationCard
-import com.starrydot.starrycosmo.presentation.design.card.InformationSection
-import com.starrydot.starrycosmo.presentation.design.color.ColorPalette
-import com.starrydot.starrycosmo.presentation.design.font.FallingSky
+import com.starrydot.starrycosmo.design.card.InformationCard
+import com.starrydot.starrycosmo.design.card.InformationSection
+import com.starrydot.starrycosmo.design.color.ColorPalette
+import com.starrydot.starrycosmo.design.font.FallingSky
 import java.util.*
 
 @Composable
@@ -58,7 +58,7 @@ fun BluetoothDeviceDetailsView(
                     //Notify through a Toast
                     Toast.makeText(
                         context,
-                        context.getString(R.string.device_details_error_while_loading_details),
+                        context.getString(R.string.bluetooth_device_details_error_while_loading_details),
                         Toast.LENGTH_LONG
                     ).show()
                     //Since device don't exist, switch back to previous screen
@@ -113,7 +113,7 @@ fun ContentView(state: State.Loaded) {
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.Start),
-            text = stringResource(id = R.string.device_details_title),
+            text = stringResource(id = R.string.bluetooth_device_details_title),
             color = ColorPalette.Tertiary,
             fontSize = 28.sp,
             fontFamily = FallingSky,
@@ -124,11 +124,12 @@ fun ContentView(state: State.Loaded) {
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            header = "Details",
+            header = stringResource(id = R.string.bluetooth_device_details_header),
             sections = mutableListOf<InformationSection>().apply {
                 add(
                     InformationSection(
-                        title = state.name ?: "Unknwon",
+                        title = state.name
+                            ?: stringResource(id = R.string.bluetooth_device_details_unknown),
                         iconResId = R.drawable.ic_product_identifier,
                     )
                 )
@@ -145,7 +146,7 @@ fun ContentView(state: State.Loaded) {
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.Start),
-            text = "Services",
+            text = stringResource(id = R.string.bluetooth_device_details_services),
             color = ColorPalette.Tertiary,
             fontSize = 18.sp,
             fontFamily = FallingSky,
@@ -196,24 +197,42 @@ fun BluetoothDeviceDetailsView_Loaded_Preview() {
                     uuid = UUID.randomUUID().toString(),
                     characteristics = listOf(
                         DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = null),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_READ"),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_WRITE")
+                        DeviceCharacteristic(
+                            uuid = UUID.randomUUID().toString(),
+                            type = "PROPERTY_READ"
+                        ),
+                        DeviceCharacteristic(
+                            uuid = UUID.randomUUID().toString(),
+                            type = "PROPERTY_WRITE"
+                        )
                     )
                 ),
                 DeviceService(
                     uuid = UUID.randomUUID().toString(),
                     characteristics = listOf(
                         DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = null),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_READ"),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_WRITE")
+                        DeviceCharacteristic(
+                            uuid = UUID.randomUUID().toString(),
+                            type = "PROPERTY_READ"
+                        ),
+                        DeviceCharacteristic(
+                            uuid = UUID.randomUUID().toString(),
+                            type = "PROPERTY_WRITE"
+                        )
                     )
                 ),
                 DeviceService(
                     uuid = UUID.randomUUID().toString(),
                     characteristics = listOf(
                         DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = null),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_READ"),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_WRITE")
+                        DeviceCharacteristic(
+                            uuid = UUID.randomUUID().toString(),
+                            type = "PROPERTY_READ"
+                        ),
+                        DeviceCharacteristic(
+                            uuid = UUID.randomUUID().toString(),
+                            type = "PROPERTY_WRITE"
+                        )
                     )
                 )
             )

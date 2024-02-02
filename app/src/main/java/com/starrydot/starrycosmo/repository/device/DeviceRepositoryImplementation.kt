@@ -13,6 +13,7 @@ import com.starrydot.starrycosmo.repository.device.api.mapper.toDevice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import no.nordicsemi.android.kotlin.ble.client.main.callback.ClientBleGatt
 import no.nordicsemi.android.kotlin.ble.core.scanner.BleScannerSettings
@@ -30,7 +31,7 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
     private val deviceApiService = retrofit.create(DeviceApiService::class.java)
 
     private val bleScanner = BleScanner(context)
-    private var aggregator = BleScanResultAggregator()
+    private var bluetoothDevices = listOf<BluetoothDevice>()
 
     //Temp storage for devices in the app lifecycle
     private val devices = mutableListOf<Device>()
@@ -48,8 +49,8 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
     @SuppressLint("MissingPermission")
     override suspend fun searchForBluetoothDevices(): Flow<List<BluetoothDevice>> =
         withContext(Dispatchers.IO) {
-            //Init a new aggregator before a new scan
-            aggregator = BleScanResultAggregator()
+            //Init an aggregator before scan
+            val aggregator = BleScanResultAggregator()
             bleScanner.scan(
                 settings = BleScannerSettings(
                     includeStoredBondedDevices = false,
@@ -64,25 +65,28 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
                             isBound = bleScanResult.device.isBonded
                         )
                     }
+                }.onEach {
+                    //Store update value of Bluetooth devices
+                    bluetoothDevices = it
                 }
         }
 
     @SuppressLint("MissingPermission")
     override suspend fun getBluetoothDeviceDetails(deviceMacAddress: String): BluetoothDeviceDetails? =
         withContext(Dispatchers.IO) {
-            aggregator.results.find { it.device.address == deviceMacAddress }?.device?.let { scannedDevice ->
+            bluetoothDevices.find { it.macAddress == deviceMacAddress }?.let { bluetoothDevice ->
                 try {
                     //Init connection and wait for device to be bound
-                    val connection = ClientBleGatt.connect(context, scannedDevice.address, this)
+                    val connection = ClientBleGatt.connect(context, bluetoothDevice.macAddress, this)
                     connection.waitForBonding()
                     //Discover all the device services
                     val discoveredServices = connection.discoverServices().services
                     //Disconnect to avoid unnecessary workload
                     connection.disconnect()
                     val bluetoothDeviceDetails = BluetoothDeviceDetails(
-                        macAddress = scannedDevice.address,
-                        name = scannedDevice.name,
-                        isBound = scannedDevice.isBonded,
+                        macAddress = bluetoothDevice.macAddress,
+                        name = bluetoothDevice.name,
+                        isBound = bluetoothDevice.isBound,
                         services = discoveredServices.map { service ->
                             BluetoothDeviceService(
                                 uuid = service.uuid.toString(),
