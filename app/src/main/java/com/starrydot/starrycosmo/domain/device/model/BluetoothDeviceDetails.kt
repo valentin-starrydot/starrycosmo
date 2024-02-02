@@ -12,4 +12,4 @@ data class BluetoothDeviceService(
     val characteristics: List<BluetoothDeviceCharacteristic>
 )
 
-data class BluetoothDeviceCharacteristic(val uuid: String)
+data class BluetoothDeviceCharacteristic(val uuid: String, val type: String?)

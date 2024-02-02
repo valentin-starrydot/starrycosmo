@@ -56,12 +56,12 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
                     reportDelay = 500
                 )
             )
-                .map { aggregator.aggregateDevices(it) }.map { bleScanResults ->
+                .map { aggregator.aggregate(it) }.map { bleScanResults ->
                     bleScanResults.map { bleScanResult ->
                         BluetoothDevice(
-                            macAddress = bleScanResult.address,
-                            name = bleScanResult.name,
-                            isBound = bleScanResult.isBonded
+                            macAddress = bleScanResult.device.address,
+                            name = if (bleScanResult.advertisedName.isNullOrBlank()) null else bleScanResult.advertisedName,
+                            isBound = bleScanResult.device.isBonded
                         )
                     }
                 }
@@ -72,8 +72,13 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
         withContext(Dispatchers.IO) {
             aggregator.results.find { it.device.address == deviceMacAddress }?.device?.let { scannedDevice ->
                 try {
-                    val connection = ClientBleGatt.connect(context, scannedDevice, this)
+                    //Init connection and wait for device to be bound
+                    val connection = ClientBleGatt.connect(context, scannedDevice.address, this)
+                    connection.waitForBonding()
+                    //Discover all the device services
                     val discoveredServices = connection.discoverServices().services
+                    //Disconnect to avoid unnecessary workload
+                    connection.disconnect()
                     val bluetoothDeviceDetails = BluetoothDeviceDetails(
                         macAddress = scannedDevice.address,
                         name = scannedDevice.name,
@@ -83,7 +88,8 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
                                 uuid = service.uuid.toString(),
                                 characteristics = service.characteristics.map { characteristic ->
                                     BluetoothDeviceCharacteristic(
-                                        uuid = characteristic.uuid.toString()
+                                        uuid = characteristic.uuid.toString(),
+                                        type = characteristic.properties.firstOrNull()?.name
                                     )
                                 }
                             )

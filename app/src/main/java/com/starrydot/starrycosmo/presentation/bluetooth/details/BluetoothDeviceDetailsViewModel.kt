@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 data class DeviceService(val uuid: String, val characteristics: List<DeviceCharacteristic>)
-data class DeviceCharacteristic(val uuid: String)
+data class DeviceCharacteristic(val uuid: String, val type: String?)
 
 sealed class State {
     object Loading : State()
@@ -52,7 +52,10 @@ class BluetoothDeviceDetailsViewModel @Inject constructor(private val deviceRepo
                             DeviceService(
                                 uuid = bluetoothDeviceService.uuid,
                                 characteristics = bluetoothDeviceService.characteristics.map { bluetoothDeviceCharacteristic ->
-                                    DeviceCharacteristic(uuid = bluetoothDeviceCharacteristic.uuid)
+                                    DeviceCharacteristic(
+                                        uuid = bluetoothDeviceCharacteristic.uuid,
+                                        type = bluetoothDeviceCharacteristic.type
+                                    )
                                 }
                             )
                         }

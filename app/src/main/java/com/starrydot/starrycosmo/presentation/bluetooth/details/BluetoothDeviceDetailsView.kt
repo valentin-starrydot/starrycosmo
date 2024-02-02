@@ -163,7 +163,8 @@ fun ContentView(state: State.Loaded) {
                 header = deviceService.uuid,
                 sections = deviceService.characteristics.map { deviceCharacteristic ->
                     InformationSection(
-                        title = deviceCharacteristic.uuid,
+                        title = deviceCharacteristic.type?.let { characteristicType -> "$characteristicType\n${deviceCharacteristic.uuid}" }
+                            ?: deviceCharacteristic.uuid,
                         iconResId = R.drawable.ic_feature
                     )
                 }
@@ -194,25 +195,25 @@ fun BluetoothDeviceDetailsView_Loaded_Preview() {
                 DeviceService(
                     uuid = UUID.randomUUID().toString(),
                     characteristics = listOf(
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString())
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = null),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_READ"),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_WRITE")
                     )
                 ),
                 DeviceService(
                     uuid = UUID.randomUUID().toString(),
                     characteristics = listOf(
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString())
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = null),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_READ"),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_WRITE")
                     )
                 ),
                 DeviceService(
                     uuid = UUID.randomUUID().toString(),
                     characteristics = listOf(
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString()),
-                        DeviceCharacteristic(uuid = UUID.randomUUID().toString())
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = null),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_READ"),
+                        DeviceCharacteristic(uuid = UUID.randomUUID().toString(), type = "PROPERTY_WRITE")
                     )
                 )
             )
