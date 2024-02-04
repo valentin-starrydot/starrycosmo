@@ -41,7 +41,7 @@ class BluetoothDeviceDetailsViewModel @Inject constructor(private val deviceRepo
 
     fun getBluetoothDeviceDetails(deviceMacAddress: String) {
         viewModelScope.launch {
-            //Get devices and map to an UI Model
+            //Get device details or display an error if no device could be found
             deviceRepository.getBluetoothDeviceDetails(deviceMacAddress)
                 ?.let { bluetoothDeviceDetails ->
                     state.value = State.Loaded(

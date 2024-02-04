@@ -45,7 +45,7 @@ class DeviceDetailsViewModel @Inject constructor(private val deviceRepository: D
 
     fun getDeviceDetails(deviceMacAddress: String) {
         viewModelScope.launch {
-            //Get device details or display an error if no devices could be found
+            //Get device details or display an error if no device could be found
             deviceRepository.getDeviceDetails(deviceMacAddress)?.let { device ->
                 state.value = State.Loaded(
                     category = device.category,

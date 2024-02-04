@@ -70,7 +70,7 @@ fun BluetoothDevicesListView(
 ) {
     val state = viewModel.observableState.collectAsState()
 
-    //Handle search View display
+    //Handle search View visibility
     var canDisplaySearchView by remember {
         mutableStateOf<Boolean?>(null)
     }
@@ -102,7 +102,7 @@ fun BluetoothDevicesListView(
         LoadingView()
     }
 
-    //Check for permissions when going back in case the user gave authorizations from settings
+    //Check for permissions when app is resumed to handle all cases (screen opened, going back from settings, etc...) and avoid missing displaying the required permissions
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
 

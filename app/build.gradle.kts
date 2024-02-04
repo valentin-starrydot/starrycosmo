@@ -63,10 +63,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    //Image loading & caching dependency
-    implementation("io.coil-kt:coil:2.5.0")
-    implementation("io.coil-kt:coil-compose:2.5.0")
-
     //Compose dependencies
     implementation("androidx.compose.foundation:foundation:1.6.0")
     implementation("androidx.compose.ui:ui:1.6.0")

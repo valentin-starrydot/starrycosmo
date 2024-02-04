@@ -66,7 +66,7 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
                         )
                     }
                 }.onEach {
-                    //Store update value of Bluetooth devices
+                    //Store updated value of Bluetooth devices
                     bluetoothDevices = it
                 }
         }
@@ -83,6 +83,7 @@ class DeviceRepositoryImplementation(private val context: Context) : DeviceRepos
                     val discoveredServices = connection.discoverServices().services
                     //Disconnect to avoid unnecessary workload
                     connection.disconnect()
+                    //Map to model
                     val bluetoothDeviceDetails = BluetoothDeviceDetails(
                         macAddress = bluetoothDevice.macAddress,
                         name = bluetoothDevice.name,
